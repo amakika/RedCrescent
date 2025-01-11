@@ -32,6 +32,15 @@ DEBUG = env.bool('DEBUG', default=False)
 ALLOWED_HOSTS = ['*']
 
 
+CORS_ALLOWED_ORIGINS = [
+    'http://localhost',  # Локальный хост
+    'http://127.0.0.1',  # Локальный IP
+    'http://192.168.127.5:8000',
+      # IP устройства, на котором запускается приложение
+]
+
+CORS_ALLOW_CREDENTIALS = True
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -43,9 +52,11 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'volonteer',
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -86,6 +97,9 @@ DATABASES['default']['OPTIONS'] = {'connect_timeout': 10}
 STATIC_URL = '/static/'
 CSRF_TRUSTED_ORIGINS = [
     'https://redcresentt-production.up.railway.app',
+      'http://localhost',  # Локальный хост
+    'http://127.0.0.1',  # Локальный IP
+    'http://192.168.127.5:8000',
      # Add other trusted domains if necessary
 ]
 
