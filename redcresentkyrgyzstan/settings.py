@@ -84,6 +84,10 @@ DATABASES = {
 }
 DATABASES['default']['OPTIONS'] = {'connect_timeout': 10}
 STATIC_URL = '/static/'
+CSRF_TRUSTED_ORIGINS = [
+    'https://redcresentt-production.up.railway.app',
+     # Add other trusted domains if necessary
+]
 
 # Directory where collectstatic will store the static files
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
