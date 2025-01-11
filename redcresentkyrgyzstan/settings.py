@@ -84,7 +84,18 @@ DATABASES = {
 }
 DATABASES['default']['OPTIONS'] = {'connect_timeout': 10}
 STATIC_URL = '/static/'
+
+# Directory where collectstatic will store the static files
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+# Additional directories to search for static files (if any)
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static'),  # Local static directory for development
+]
+
+# Media files (if your app handles uploads)
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 
 # Password validation
