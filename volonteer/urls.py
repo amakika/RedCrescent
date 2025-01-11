@@ -22,6 +22,5 @@ router.register(r'statistics', StatisticViewSet, basename='statistic')
 # Define urlpatterns
 urlpatterns = [
     path('', include(router.urls)),  # Include all routes from the router
-    path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),  # JWT login
-    path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),  # Refresh token
+ # Refresh token
 ]
