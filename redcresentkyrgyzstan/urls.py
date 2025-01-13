@@ -33,12 +33,12 @@ schema_view = get_schema_view(
     openapi.Info(
         title="Red Crescent API",
         default_version="v1",
-        description="API documentation for Red Crescent",
+        description="API documentation for the Red Crescent project",
         contact=openapi.Contact(email="asinarstanbekov51@gmail.com"),
         license=openapi.License(name="BSD License"),
     ),
     public=True,
-    permission_classes=(permissions.AllowAny,),
+    permission_classes=(AllowAny,),
 )
 
 
