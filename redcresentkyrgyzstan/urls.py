@@ -28,7 +28,7 @@ from rest_framework.authentication import TokenAuthentication
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
 from rest_framework import permissions
-
+from django.views.generic import RedirectView
 schema_view = get_schema_view(
     openapi.Info(
         title="Red Crescent API",
@@ -45,6 +45,7 @@ schema_view = get_schema_view(
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+     path('accounts/login/', RedirectView.as_view(url='/swagger/', permanent=True)),
     path('api/',include('volonteer.urls')),
      path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),  # получение токена
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),  # обновление токена
