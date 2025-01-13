@@ -33,15 +33,14 @@ schema_view = get_schema_view(
     openapi.Info(
         title="Red Crescent API",
         default_version="v1",
-        description="API documentation for the Red Crescent project",
-        terms_of_service="https://www.google.com/policies/terms/",
+        description="API documentation for Red Crescent",
         contact=openapi.Contact(email="asinarstanbekov51@gmail.com"),
         license=openapi.License(name="BSD License"),
     ),
     public=True,
     permission_classes=(permissions.AllowAny,),
-    authentication_classes=[],  # Swagger doesn't need authentication
 )
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
