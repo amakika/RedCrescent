@@ -52,11 +52,11 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'volonteer',
-<<<<<<< HEAD
+
     'drf_yasg',
-=======
+
     'corsheaders',
->>>>>>> 1093227a205a032515525c4ce5136e257992357f
+
 ]
 
 MIDDLEWARE = [
