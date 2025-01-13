@@ -44,11 +44,11 @@ schema_view = get_schema_view(
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-     path('accounts/login/', RedirectView.as_view(url='/swagger/', permanent=True)),
+   
     path('api/',include('volonteer.urls')),
      path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),  # получение токена
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),  # обновление токена
-    path('api/', include('volonteer.urls')),
+    
 
     # Swagger and Redoc URLs
     re_path(r'^swagger(?P<format>\.json|\.yaml)$', schema_view.without_ui(cache_timeout=0), name='schema-json'),
