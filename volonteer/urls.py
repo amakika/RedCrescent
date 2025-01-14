@@ -1,26 +1,25 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
-from .views import (
+from volonteer.views import (
+    LoginView,
     UserViewSet,
     TaskViewSet,
     EventViewSet,
     LeaderboardViewSet,
     StatisticViewSet,
 )
+from rest_framework_simplejwt.views import TokenRefreshView
 
-# Initialize the router
 router = DefaultRouter()
+router.register("users", UserViewSet, basename="user")
+router.register("tasks", TaskViewSet, basename="task")
+router.register("events", EventViewSet, basename="event")
+router.register("leaderboard", LeaderboardViewSet, basename="leaderboard")
 
-# Register routes
-router.register(r'users', UserViewSet, basename='user')
-router.register(r'tasks', TaskViewSet, basename='task')
-router.register(r'events', EventViewSet, basename='event')
-router.register(r'leaderboard', LeaderboardViewSet, basename='leaderboard')
-router.register(r'statistics', StatisticViewSet, basename='statistic')
-
-# Define urlpatterns
 urlpatterns = [
-    path('', include(router.urls)),  # Include all routes from the router
- # Refresh token
+    path("api/login/", LoginView.as_view(), name="login"),
+    path("api/token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
+    path("api/statistics/", StatisticViewSet.as_view({"get": "list"}), name="statistics"),
+    path("api/", include(router.urls)),
 ]
+

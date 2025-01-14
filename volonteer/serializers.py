@@ -9,12 +9,17 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class TaskSerializer(serializers.ModelSerializer):
-    assigned_volunteers = UserSerializer(many=True, read_only=True)
-    coordinator = UserSerializer(read_only=True)
+    current_volunteers = serializers.IntegerField(source='current_volunteers', read_only=True)
 
     class Meta:
         model = Task
-        fields = '__all__'
+        fields = [
+            'id', 'title', 'description', 'assigned_volunteers', 'coordinator', 'status', 
+            'due_date', 'hours_to_complete', 'created_at', 'updated_at', 
+            'volunteer_limit', 'current_volunteers'
+        ]
+        read_only_fields = ['created_at', 'updated_at', 'current_volunteers']
+
 
 
 class EventSerializer(serializers.ModelSerializer):

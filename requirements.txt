@@ -1,4 +1,4 @@
-Django
+django
 djangorestframework
 psycopg2-binary
 gunicorn
