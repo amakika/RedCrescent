@@ -36,7 +36,8 @@ CORS_ALLOWED_ORIGINS = [
     'http://localhost',  # Локальный хост
     'http://127.0.0.1',  # Локальный IP
     'http://192.168.127.5:8000',
-    'http://192.168.30.5:3000'
+    'http://192.168.30.5:3000',
+    'https://redcresentt-production.up.railway.app',
       # IP устройства, на котором запускается приложение
 ]
 
@@ -105,6 +106,8 @@ CSRF_TRUSTED_ORIGINS = [
       'http://localhost',  # Локальный хост
     'http://127.0.0.1',  # Локальный IP
     'http://192.168.127.5:8000',
+    'http://192.168.30.5:3000',
+    
      # Add other trusted domains if necessary
 ]
 
