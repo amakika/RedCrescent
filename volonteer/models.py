@@ -43,7 +43,7 @@ class Task(models.Model):
     title = models.CharField(max_length=255)
     description = models.TextField()
     assigned_volunteers = models.ManyToManyField(
-        User, related_name='tasks', limit_choices_to={'role': 'volunteer'}, blank=True
+        User, related_name='tasks', blank=True, limit_choices_to={'role': 'volunteer'}
     )
     coordinator = models.ForeignKey(
         User, on_delete=models.SET_NULL, null=True, related_name='coordinator_tasks', limit_choices_to={'role': 'coordinator'}
@@ -53,30 +53,28 @@ class Task(models.Model):
     hours_to_complete = models.DecimalField(max_digits=5, decimal_places=2, default=0.0)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    volunteer_limit = models.PositiveIntegerField(default=10)  # Maximum number of volunteers
-
-    @property
-    def current_volunteers(self):
-        return self.assigned_volunteers.count()  # Count current volunteers
+    is_public = models.BooleanField(default=False)  # New field for visibility
 
     def __str__(self):
         return self.title
+
 
 
 
 class Event(models.Model):
     title = models.CharField(max_length=255)
     description = models.TextField()
-    location = models.CharField(max_length=255)
+    coordinator = models.ForeignKey(
+        User, on_delete=models.SET_NULL, null=True, related_name='coordinator_events', limit_choices_to={'role': 'coordinator'}
+    )
     date = models.DateTimeField()
-    coordinator = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name='events', limit_choices_to={'role': 'coordinator'})
-    registered_volunteers = models.ManyToManyField(User, related_name='registered_events', limit_choices_to={'role': 'volunteer'})
-    total_hours = models.DecimalField(max_digits=5, decimal_places=2, default=0.0)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
+    location = models.CharField(max_length=255)
+    registered_volunteers = models.ManyToManyField(User, related_name='registered_events', blank=True)
+    is_public = models.BooleanField(default=False)  # New field for visibility
 
     def __str__(self):
         return self.title
+
 
 
 class Leaderboard(models.Model):
