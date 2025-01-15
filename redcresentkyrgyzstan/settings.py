@@ -2,6 +2,7 @@ from datetime import timedelta
 from pathlib import Path
 import environ
 import os
+import cloudinary_storage
 
 # Initialize environ
 BASE_DIR = Path(__file__).resolve().parent.parent
