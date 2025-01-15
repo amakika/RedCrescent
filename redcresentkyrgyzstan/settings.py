@@ -6,6 +6,7 @@ import cloudinary_storage
 import cloudinary
 import cloudinary.uploader
 import cloudinary.api
+
 # Initialize environ
 BASE_DIR = Path(__file__).resolve().parent.parent
 env = environ.Env()
@@ -17,15 +18,11 @@ DEBUG = env.bool('DEBUG', default=False)
 
 ALLOWED_HOSTS = ['*']
 
-CORS_ALLOWED_ORIGINS = [
-    'http://localhost',
-    'http://127.0.0.1',
-    'http://192.168.127.5:8000',
-    'http://192.168.30.5:3000',
-    'https://redcresentt-production.up.railway.app',
-]
-
+# Allow all origins and credentials for development
+CORS_ALLOW_ALL_ORIGINS = True
 CORS_ALLOW_CREDENTIALS = True
+
+CSRF_TRUSTED_ORIGINS = ['*']  # Trust all origins for CSRF in development
 
 # Application definition
 INSTALLED_APPS = [
@@ -43,15 +40,8 @@ INSTALLED_APPS = [
     'drf_yasg',
     'corsheaders',
 ]
-CSRF_TRUSTED_ORIGINS = [
-    'https://redcresentt-production.up.railway.app',
-    'http://localhost',
-    'http://127.0.0.1',
-]
-
 
 # Cloudinary configuration
-
 cloudinary.config(
     cloud_name="dtiijcqnw",
     api_key="679278777566463",
@@ -59,7 +49,6 @@ cloudinary.config(
 )
 
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
-
 
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
@@ -154,4 +143,3 @@ LOGGING = {
 }
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
