@@ -13,6 +13,25 @@ from .serializers import (
     EventSerializer,
     LeaderboardSerializer,
 )
+from rest_framework import permissions
+from rest_framework.response import Response
+from rest_framework.views import APIView
+from rest_framework_simplejwt.authentication import JWTAuthentication
+from .serializers import UserSerializer
+
+class MeView(APIView):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get(self, request):
+        # Get the current authenticated user
+        user = request.user
+        
+        # Serialize the user data
+        user_data = UserSerializer(user).data
+
+        # Return the user data
+        return Response(user_data, status=status.HTTP_200_OK)
 
 # Login Endpoint for JWT Tokens
 class LoginView(APIView):
