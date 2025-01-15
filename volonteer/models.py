@@ -5,6 +5,7 @@ from django.dispatch import receiver
 from rest_framework_simplejwt.tokens import RefreshToken
 
 
+from cloudinary.models import CloudinaryField
 
 
 class User(models.Model):
@@ -38,6 +39,7 @@ class User(models.Model):
 
 
 
+
 class Task(models.Model):
     STATUS_CHOICES = [
         ('pending', 'Pending'),
@@ -48,6 +50,7 @@ class Task(models.Model):
 
     title = models.CharField(max_length=255)
     description = models.TextField()
+    photo = CloudinaryField('image', null=True, blank=True)  # Use CloudinaryField for the photo
     assigned_volunteers = models.ManyToManyField(
         User, related_name='tasks', blank=True, limit_choices_to={'role': 'volunteer'}
     )
@@ -59,10 +62,11 @@ class Task(models.Model):
     hours_to_complete = models.DecimalField(max_digits=5, decimal_places=2, default=0.0)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    is_public = models.BooleanField(default=False)  # New field for visibility
+    is_public = models.BooleanField(default=False)
 
     def __str__(self):
         return self.title
+
 @receiver(post_save, sender=User)
 def create_jwt_token(sender, instance, created, **kwargs):
     if created:
