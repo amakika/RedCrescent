@@ -2,7 +2,7 @@ from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from .views import (
     LoginView, UserViewSet, TaskViewSet,
-    EventViewSet, LeaderboardViewSet, StatisticViewSet
+    EventViewSet, LeaderboardViewSet, StatisticViewSet,MeView,
 )
 
 router = DefaultRouter()
@@ -15,4 +15,5 @@ urlpatterns = [
     path('login/', LoginView.as_view(), name='login'),
     path('statistics/', StatisticViewSet.as_view(), name='statistics'),
     path('', include(router.urls)),
+    path('me/', MeView.as_view(), name='me'),
 ]
