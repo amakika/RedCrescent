@@ -1,4 +1,10 @@
 from django.db import models
+from django.conf import settings
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+from rest_framework_simplejwt.tokens import RefreshToken
+
+
 
 
 class User(models.Model):
@@ -57,6 +63,14 @@ class Task(models.Model):
 
     def __str__(self):
         return self.title
+@receiver(post_save, sender=User)
+def create_jwt_token(sender, instance, created, **kwargs):
+    if created:
+        # Создаем токены для нового пользователя
+        refresh = RefreshToken.for_user(instance)
+        # Можно сохранить или отправить токены пользователю
+        print(f"Access Token: {refresh.access_token}")
+        print(f"Refresh Token: {refresh}")
 
 
 
