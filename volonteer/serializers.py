@@ -9,6 +9,7 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class TaskSerializer(serializers.ModelSerializer):
+    photo = serializers.ImageField(required=False)
     class Meta:
         model = Task
         fields = '__all__'
