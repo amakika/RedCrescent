@@ -40,6 +40,12 @@ INSTALLED_APPS = [
     'drf_yasg',
     'corsheaders',
 ]
+CSRF_TRUSTED_ORIGINS = [
+    'https://redcresentt-production.up.railway.app',
+    'http://localhost',
+    'http://127.0.0.1',
+]
+
 
 # Cloudinary configuration
 CLOUDINARY_STORAGE = {
