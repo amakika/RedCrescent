@@ -7,4 +7,5 @@ django-environ
 djangorestframework-simplejwt
 django-cors-headers
 drf_yasg
-cloudinary django-cloudinary-storage
+cloudinary 
+django-cloudinary-storage
