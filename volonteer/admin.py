@@ -5,7 +5,12 @@ from django.contrib import admin
 from .models import User, Task, Event, Leaderboard, Statistic
 
 admin.site.register(User)
-admin.site.register(Task)
+
 admin.site.register(Event)
 admin.site.register(Leaderboard)
 admin.site.register(Statistic)
+
+
+@admin.register(Task)
+class TaskAdmin(admin.ModelAdmin):
+    list_display = ('title', 'description', 'photo')

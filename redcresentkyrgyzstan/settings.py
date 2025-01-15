@@ -3,7 +3,9 @@ from pathlib import Path
 import environ
 import os
 import cloudinary_storage
-
+import cloudinary
+import cloudinary.uploader
+import cloudinary.api
 # Initialize environ
 BASE_DIR = Path(__file__).resolve().parent.parent
 env = environ.Env()
@@ -49,13 +51,15 @@ CSRF_TRUSTED_ORIGINS = [
 
 
 # Cloudinary configuration
-CLOUDINARY_STORAGE = {
-    'CLOUD_NAME': env('CLOUD_NAME'),
-    'API_KEY': env('CLOUDINARY_API_KEY'),
-    'API_SECRET': env('CLOUDINARY_API_SECRET'),
-}
+
+cloudinary.config(
+    cloud_name="dtiijcqnw",
+    api_key="679278777566463",
+    api_secret="d-uMGdK1jqyNbaRnP64HvCsuKJc"
+)
 
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+
 
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
