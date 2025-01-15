@@ -18,6 +18,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from .serializers import UserSerializer
+from django.views.decorators.crsf import csrf_exempt
 
 class MeView(APIView):
     authentication_classes = [JWTAuthentication]
@@ -36,7 +37,7 @@ class MeView(APIView):
 # Login Endpoint for JWT Tokens
 class LoginView(APIView):
     permission_classes = [permissions.AllowAny]
-
+    @csrf_exempt
     def post(self, request, *args, **kwargs):
         username = request.data.get("username")
         password = request.data.get("password")
