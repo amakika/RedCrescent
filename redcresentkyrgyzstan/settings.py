@@ -139,5 +139,6 @@ LOGGING = {
         },
     },
 }
+AUTH_USER_MODEL = 'volonteer.User'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'

@@ -7,8 +7,10 @@ from rest_framework_simplejwt.tokens import RefreshToken
 
 from cloudinary.models import CloudinaryField
 
+from django.contrib.auth.models import AbstractUser
+from django.db import models
 
-class User(models.Model):
+class User(AbstractUser):
     ROLE_CHOICES = [
         ('volunteer', 'Volunteer'),
         ('coordinator', 'Coordinator'),
@@ -20,21 +22,15 @@ class User(models.Model):
         ('other', 'Other'),
     ]
 
-    username = models.CharField(max_length=100, unique=True)
-    email = models.EmailField(unique=True)
-    password = models.CharField(max_length=128)  # Сохраняем хэши паролей
-    first_name = models.CharField(max_length=100)
-    last_name = models.CharField(max_length=100)
-    gender = models.CharField(max_length=10, choices=GENDER_CHOICES)
-    role = models.CharField(max_length=15, choices=ROLE_CHOICES)
+    gender = models.CharField(max_length=10, choices=GENDER_CHOICES, null=True, blank=True)
+    role = models.CharField(max_length=15, choices=ROLE_CHOICES, null=True, blank=True)
     phone_number = models.CharField(max_length=15, null=True, blank=True)
     total_hours = models.DecimalField(max_digits=5, decimal_places=2, default=0.0)
     xp_points = models.IntegerField(default=0)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return f"{self.username} ({self.role})"
+
 
 
 
