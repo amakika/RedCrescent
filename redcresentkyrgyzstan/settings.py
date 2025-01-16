@@ -38,7 +38,7 @@ INSTALLED_APPS = [
     'drf_yasg',
     'corsheaders',
 ]
-CSRF_TRUSTED_ORIGINS = ['redcresentt-production.up.railway.app']
+
 
 # Cloudinary configuration
 cloudinary.config(
@@ -54,12 +54,21 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    #'django.middleware.csrf.CsrfViewMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
+    'volonteer.middleware.MobileCsrfExemptMiddleware'
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
-
+# settings.py
+CSRF_COOKIE_SECURE = False  # Disable the CSRF cookie for mobile (not recommended for production)
+CSRF_COOKIE_HTTPONLY = False  # Disable the CSRF cookie being HTTP-only for mobile
+CSRF_HEADER_NAME = 'X-CSRFToken'  # Custom header for CSRF token (if needed)
+CSRF_TRUSTED_ORIGINS = [
+    'https://redcresentt-production.up.railway.app',
+    'http://localhost',
+    'http://127.0.0.1',
+]
 ROOT_URLCONF = 'redcresentkyrgyzstan.urls'
 
 TEMPLATES = [
