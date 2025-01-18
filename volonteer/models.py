@@ -9,6 +9,8 @@ from cloudinary.models import CloudinaryField
 
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+from django.core.exceptions import ValidationError
+from PIL import Image
 
 class User(AbstractUser):
     ROLE_CHOICES = [
@@ -32,15 +34,46 @@ class User(AbstractUser):
     profile_picture_height = models.PositiveIntegerField(null=True, blank=True)
 
     def save(self, *args, **kwargs):
-        if self.profile_picture:
-            # Get image dimensions before saving
-            image = self.profile_picture
-            self.profile_picture_width = image.width
-            self.profile_picture_height = image.height
+        # Only process image if it's being updated
+        if self.profile_picture and hasattr(self.profile_picture, 'file'):
+            try:
+                from PIL import Image
+                import io
+                
+                # Open the image file
+                img = Image.open(self.profile_picture)
+                
+                # Get dimensions
+                width, height = img.size
+                
+                # Save dimensions to model fields
+                self.profile_picture_width = width
+                self.profile_picture_height = height
+                
+                # Save the image to a BytesIO buffer
+                buffer = io.BytesIO()
+                img.save(buffer, format=img.format)
+                self.profile_picture.file = buffer
+                
+            except Exception as e:
+                # Handle image processing errors gracefully
+                print(f"Error processing image: {e}")
+                self.profile_picture_width = None
+                self.profile_picture_height = None
+
         super().save(*args, **kwargs)
 
     def __str__(self):
         return f"{self.username} ({self.role})"
+
+    def clean(self):
+        super().clean()
+        if self.profile_picture:
+            try:
+                img = Image.open(self.profile_picture)
+                img.verify()  # Verify that it is, in fact, an image
+            except Exception as e:
+                raise ValidationError({'profile_picture': 'Invalid image file'})
 
 
 
