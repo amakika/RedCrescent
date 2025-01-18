@@ -781,3 +781,165 @@ CREATE INDEX "volonteer_user_user_permissions_permission_id_326701a7" ON "volont
 (0.254) SELECT "django_content_type"."id", "django_content_type"."app_label", "django_content_type"."model" FROM "django_content_type" WHERE "django_content_type"."app_label" = 'authtoken'; args=('authtoken',); alias=default
 (0.263) SELECT "django_content_type"."id", "django_content_type"."app_label", "django_content_type"."model" FROM "django_content_type" WHERE "django_content_type"."app_label" = 'cloudinary'; args=('cloudinary',); alias=default
 (0.398) SELECT "django_content_type"."id", "django_content_type"."app_label", "django_content_type"."model" FROM "django_content_type" WHERE "django_content_type"."app_label" = 'cloudinary'; args=('cloudinary',); alias=default
+(0.277) 
+            SELECT
+                c.relname,
+                CASE
+                    WHEN c.relispartition THEN 'p'
+                    WHEN c.relkind IN ('m', 'v') THEN 'v'
+                    ELSE 't'
+                END,
+                obj_description(c.oid, 'pg_class')
+            FROM pg_catalog.pg_class c
+            LEFT JOIN pg_catalog.pg_namespace n ON n.oid = c.relnamespace
+            WHERE c.relkind IN ('f', 'm', 'p', 'r', 'v')
+                AND n.nspname NOT IN ('pg_catalog', 'pg_toast')
+                AND pg_catalog.pg_table_is_visible(c.oid)
+        ; args=None; alias=default
+(0.346) SELECT "django_migrations"."id", "django_migrations"."app", "django_migrations"."name", "django_migrations"."applied" FROM "django_migrations"; args=(); alias=default
+(1.070) SELECT "volonteer_user"."id", "volonteer_user"."password", "volonteer_user"."last_login", "volonteer_user"."is_superuser", "volonteer_user"."username", "volonteer_user"."first_name", "volonteer_user"."last_name", "volonteer_user"."email", "volonteer_user"."is_staff", "volonteer_user"."is_active", "volonteer_user"."date_joined", "volonteer_user"."gender", "volonteer_user"."role", "volonteer_user"."phone_number", "volonteer_user"."total_hours", "volonteer_user"."xp_points" FROM "volonteer_user" WHERE "volonteer_user"."username" = 'Yasin' LIMIT 21; args=('Yasin',); alias=default
+(0.362) INSERT INTO "volonteer_user" ("password", "last_login", "is_superuser", "username", "first_name", "last_name", "email", "is_staff", "is_active", "date_joined", "gender", "role", "phone_number", "total_hours", "xp_points") VALUES ('pbkdf2_sha256$870000$5WQmTuGPgG5pOCpFSafwHN$LxQDv5fpOpa/Rcbq1jtEk6UBTiORjqp8duieq/XPWqQ=', NULL, true, 'Yasin', '', '', 'asinarstanbekov51@gmail.com', true, true, '2025-01-16T13:45:14.474152+00:00'::timestamptz, NULL, NULL, NULL, 0, 0) RETURNING "volonteer_user"."id"; args=('pbkdf2_sha256$870000$5WQmTuGPgG5pOCpFSafwHN$LxQDv5fpOpa/Rcbq1jtEk6UBTiORjqp8duieq/XPWqQ=', None, True, 'Yasin', '', '', 'asinarstanbekov51@gmail.com', True, True, datetime.datetime(2025, 1, 16, 13, 45, 14, 474152, tzinfo=datetime.timezone.utc), None, None, None, Decimal('0'), 0); alias=default
+(0.328) 
+            SELECT
+                c.relname,
+                CASE
+                    WHEN c.relispartition THEN 'p'
+                    WHEN c.relkind IN ('m', 'v') THEN 'v'
+                    ELSE 't'
+                END,
+                obj_description(c.oid, 'pg_class')
+            FROM pg_catalog.pg_class c
+            LEFT JOIN pg_catalog.pg_namespace n ON n.oid = c.relnamespace
+            WHERE c.relkind IN ('f', 'm', 'p', 'r', 'v')
+                AND n.nspname NOT IN ('pg_catalog', 'pg_toast')
+                AND pg_catalog.pg_table_is_visible(c.oid)
+        ; args=None; alias=default
+(0.502) SELECT "django_migrations"."id", "django_migrations"."app", "django_migrations"."name", "django_migrations"."applied" FROM "django_migrations"; args=(); alias=default
+(0.282) SELECT "volonteer_user"."id", "volonteer_user"."password", "volonteer_user"."last_login", "volonteer_user"."is_superuser", "volonteer_user"."username", "volonteer_user"."first_name", "volonteer_user"."last_name", "volonteer_user"."email", "volonteer_user"."is_staff", "volonteer_user"."is_active", "volonteer_user"."date_joined", "volonteer_user"."gender", "volonteer_user"."role", "volonteer_user"."phone_number", "volonteer_user"."total_hours", "volonteer_user"."xp_points" FROM "volonteer_user" WHERE "volonteer_user"."username" = 'Egor' LIMIT 21; args=('Egor',); alias=default
+(0.316) INSERT INTO "volonteer_user" ("password", "last_login", "is_superuser", "username", "first_name", "last_name", "email", "is_staff", "is_active", "date_joined", "gender", "role", "phone_number", "total_hours", "xp_points") VALUES ('pbkdf2_sha256$870000$nWadt86M8udqbccWAAF3kY$Ow+IyIWOrQFPiU6rswDJJymU/dZgDMqo1jMlRkb8u30=', NULL, true, 'Egor', '', '', 'egor@gmail.com', true, true, '2025-01-16T13:46:42.346307+00:00'::timestamptz, NULL, NULL, NULL, 0, 0) RETURNING "volonteer_user"."id"; args=('pbkdf2_sha256$870000$nWadt86M8udqbccWAAF3kY$Ow+IyIWOrQFPiU6rswDJJymU/dZgDMqo1jMlRkb8u30=', None, True, 'Egor', '', '', 'egor@gmail.com', True, True, datetime.datetime(2025, 1, 16, 13, 46, 42, 346307, tzinfo=datetime.timezone.utc), None, None, None, Decimal('0'), 0); alias=default
+(0.270) 
+            SELECT
+                c.relname,
+                CASE
+                    WHEN c.relispartition THEN 'p'
+                    WHEN c.relkind IN ('m', 'v') THEN 'v'
+                    ELSE 't'
+                END,
+                obj_description(c.oid, 'pg_class')
+            FROM pg_catalog.pg_class c
+            LEFT JOIN pg_catalog.pg_namespace n ON n.oid = c.relnamespace
+            WHERE c.relkind IN ('f', 'm', 'p', 'r', 'v')
+                AND n.nspname NOT IN ('pg_catalog', 'pg_toast')
+                AND pg_catalog.pg_table_is_visible(c.oid)
+        ; args=None; alias=default
+(0.274) SELECT "django_migrations"."id", "django_migrations"."app", "django_migrations"."name", "django_migrations"."applied" FROM "django_migrations"; args=(); alias=default
+(0.386) SELECT "volonteer_user"."id", "volonteer_user"."password", "volonteer_user"."last_login", "volonteer_user"."is_superuser", "volonteer_user"."username", "volonteer_user"."first_name", "volonteer_user"."last_name", "volonteer_user"."email", "volonteer_user"."is_staff", "volonteer_user"."is_active", "volonteer_user"."date_joined", "volonteer_user"."gender", "volonteer_user"."role", "volonteer_user"."phone_number", "volonteer_user"."total_hours", "volonteer_user"."xp_points" FROM "volonteer_user" WHERE "volonteer_user"."username" = 'Zalkar' LIMIT 21; args=('Zalkar',); alias=default
+(0.795) INSERT INTO "volonteer_user" ("password", "last_login", "is_superuser", "username", "first_name", "last_name", "email", "is_staff", "is_active", "date_joined", "gender", "role", "phone_number", "total_hours", "xp_points") VALUES ('pbkdf2_sha256$870000$Xz9TrAO3egbnEJYuQyVWFt$VBjXY1It9gnQEnYxnDizMQfp/EzRPTcjKJIUA8h3P1U=', NULL, true, 'Zalkar', '', '', 'zalkar@gmail.com', true, true, '2025-01-16T13:48:47.168563+00:00'::timestamptz, NULL, NULL, NULL, 0, 0) RETURNING "volonteer_user"."id"; args=('pbkdf2_sha256$870000$Xz9TrAO3egbnEJYuQyVWFt$VBjXY1It9gnQEnYxnDizMQfp/EzRPTcjKJIUA8h3P1U=', None, True, 'Zalkar', '', '', 'zalkar@gmail.com', True, True, datetime.datetime(2025, 1, 16, 13, 48, 47, 168563, tzinfo=datetime.timezone.utc), None, None, None, Decimal('0'), 0); alias=default
+(0.266) 
+            SELECT
+                c.relname,
+                CASE
+                    WHEN c.relispartition THEN 'p'
+                    WHEN c.relkind IN ('m', 'v') THEN 'v'
+                    ELSE 't'
+                END,
+                obj_description(c.oid, 'pg_class')
+            FROM pg_catalog.pg_class c
+            LEFT JOIN pg_catalog.pg_namespace n ON n.oid = c.relnamespace
+            WHERE c.relkind IN ('f', 'm', 'p', 'r', 'v')
+                AND n.nspname NOT IN ('pg_catalog', 'pg_toast')
+                AND pg_catalog.pg_table_is_visible(c.oid)
+        ; args=None; alias=default
+(0.472) SELECT "django_migrations"."id", "django_migrations"."app", "django_migrations"."name", "django_migrations"."applied" FROM "django_migrations"; args=(); alias=default
+(0.274) SELECT "volonteer_user"."id", "volonteer_user"."password", "volonteer_user"."last_login", "volonteer_user"."is_superuser", "volonteer_user"."username", "volonteer_user"."first_name", "volonteer_user"."last_name", "volonteer_user"."email", "volonteer_user"."is_staff", "volonteer_user"."is_active", "volonteer_user"."date_joined", "volonteer_user"."gender", "volonteer_user"."role", "volonteer_user"."phone_number", "volonteer_user"."total_hours", "volonteer_user"."xp_points" FROM "volonteer_user" WHERE "volonteer_user"."username" = 'Azim' LIMIT 21; args=('Azim',); alias=default
+(0.619) INSERT INTO "volonteer_user" ("password", "last_login", "is_superuser", "username", "first_name", "last_name", "email", "is_staff", "is_active", "date_joined", "gender", "role", "phone_number", "total_hours", "xp_points") VALUES ('pbkdf2_sha256$870000$LUCiCXbpgeoImJ2Mkg7PVt$Y6KImH9wa6+3zL6MOwP1g2B7gz2856Y3IP7JsBaIl2I=', NULL, true, 'Azim', '', '', 'azim@gmail.com', true, true, '2025-01-16T13:50:23.849405+00:00'::timestamptz, NULL, NULL, NULL, 0, 0) RETURNING "volonteer_user"."id"; args=('pbkdf2_sha256$870000$LUCiCXbpgeoImJ2Mkg7PVt$Y6KImH9wa6+3zL6MOwP1g2B7gz2856Y3IP7JsBaIl2I=', None, True, 'Azim', '', '', 'azim@gmail.com', True, True, datetime.datetime(2025, 1, 16, 13, 50, 23, 849405, tzinfo=datetime.timezone.utc), None, None, None, Decimal('0'), 0); alias=default
+(0.320) 
+            SELECT
+                c.relname,
+                CASE
+                    WHEN c.relispartition THEN 'p'
+                    WHEN c.relkind IN ('m', 'v') THEN 'v'
+                    ELSE 't'
+                END,
+                obj_description(c.oid, 'pg_class')
+            FROM pg_catalog.pg_class c
+            LEFT JOIN pg_catalog.pg_namespace n ON n.oid = c.relnamespace
+            WHERE c.relkind IN ('f', 'm', 'p', 'r', 'v')
+                AND n.nspname NOT IN ('pg_catalog', 'pg_toast')
+                AND pg_catalog.pg_table_is_visible(c.oid)
+        ; args=None; alias=default
+(0.314) SELECT "django_migrations"."id", "django_migrations"."app", "django_migrations"."name", "django_migrations"."applied" FROM "django_migrations"; args=(); alias=default
+(0.318) 
+            SELECT
+                c.relname,
+                CASE
+                    WHEN c.relispartition THEN 'p'
+                    WHEN c.relkind IN ('m', 'v') THEN 'v'
+                    ELSE 't'
+                END,
+                obj_description(c.oid, 'pg_class')
+            FROM pg_catalog.pg_class c
+            LEFT JOIN pg_catalog.pg_namespace n ON n.oid = c.relnamespace
+            WHERE c.relkind IN ('f', 'm', 'p', 'r', 'v')
+                AND n.nspname NOT IN ('pg_catalog', 'pg_toast')
+                AND pg_catalog.pg_table_is_visible(c.oid)
+        ; args=None; alias=default
+(0.313) SELECT "django_migrations"."id", "django_migrations"."app", "django_migrations"."name", "django_migrations"."applied" FROM "django_migrations"; args=(); alias=default
+(0.340) 
+            SELECT
+                c.relname,
+                CASE
+                    WHEN c.relispartition THEN 'p'
+                    WHEN c.relkind IN ('m', 'v') THEN 'v'
+                    ELSE 't'
+                END,
+                obj_description(c.oid, 'pg_class')
+            FROM pg_catalog.pg_class c
+            LEFT JOIN pg_catalog.pg_namespace n ON n.oid = c.relnamespace
+            WHERE c.relkind IN ('f', 'm', 'p', 'r', 'v')
+                AND n.nspname NOT IN ('pg_catalog', 'pg_toast')
+                AND pg_catalog.pg_table_is_visible(c.oid)
+        ; args=None; alias=default
+(0.319) SELECT "django_migrations"."id", "django_migrations"."app", "django_migrations"."name", "django_migrations"."applied" FROM "django_migrations"; args=(); alias=default
+(0.328) 
+            SELECT
+                c.relname,
+                CASE
+                    WHEN c.relispartition THEN 'p'
+                    WHEN c.relkind IN ('m', 'v') THEN 'v'
+                    ELSE 't'
+                END,
+                obj_description(c.oid, 'pg_class')
+            FROM pg_catalog.pg_class c
+            LEFT JOIN pg_catalog.pg_namespace n ON n.oid = c.relnamespace
+            WHERE c.relkind IN ('f', 'm', 'p', 'r', 'v')
+                AND n.nspname NOT IN ('pg_catalog', 'pg_toast')
+                AND pg_catalog.pg_table_is_visible(c.oid)
+        ; args=None; alias=default
+(0.784) SELECT "django_migrations"."id", "django_migrations"."app", "django_migrations"."name", "django_migrations"."applied" FROM "django_migrations"; args=(); alias=default
+(0.298) SELECT "django_content_type"."id", "django_content_type"."app_label", "django_content_type"."model" FROM "django_content_type" WHERE "django_content_type"."app_label" = 'admin'; args=('admin',); alias=default
+(0.322) SELECT "django_content_type"."id", "django_content_type"."app_label", "django_content_type"."model" FROM "django_content_type" WHERE ("django_content_type"."app_label" = 'admin' AND "django_content_type"."model" IN ('logentry')); args=('admin', 'logentry'); alias=default
+(0.301) SELECT "auth_permission"."content_type_id", "auth_permission"."codename" FROM "auth_permission" INNER JOIN "django_content_type" ON ("auth_permission"."content_type_id" = "django_content_type"."id") WHERE "auth_permission"."content_type_id" IN (1) ORDER BY "django_content_type"."app_label" ASC, "django_content_type"."model" ASC, "auth_permission"."codename" ASC; args=(1,); alias=default
+(0.310) SELECT "django_content_type"."id", "django_content_type"."app_label", "django_content_type"."model" FROM "django_content_type" WHERE "django_content_type"."app_label" = 'admin'; args=('admin',); alias=default
+(0.326) SELECT "django_content_type"."id", "django_content_type"."app_label", "django_content_type"."model" FROM "django_content_type" WHERE "django_content_type"."app_label" = 'auth'; args=('auth',); alias=default
+(0.309) SELECT "django_content_type"."id", "django_content_type"."app_label", "django_content_type"."model" FROM "django_content_type" WHERE ("django_content_type"."app_label" = 'auth' AND "django_content_type"."model" IN ('permission', 'group')); args=('auth', 'permission', 'group'); alias=default
+(0.307) SELECT "auth_permission"."content_type_id", "auth_permission"."codename" FROM "auth_permission" INNER JOIN "django_content_type" ON ("auth_permission"."content_type_id" = "django_content_type"."id") WHERE "auth_permission"."content_type_id" IN (2, 3) ORDER BY "django_content_type"."app_label" ASC, "django_content_type"."model" ASC, "auth_permission"."codename" ASC; args=(2, 3); alias=default
+(0.307) SELECT "django_content_type"."id", "django_content_type"."app_label", "django_content_type"."model" FROM "django_content_type" WHERE "django_content_type"."app_label" = 'auth'; args=('auth',); alias=default
+(0.320) SELECT "django_content_type"."id", "django_content_type"."app_label", "django_content_type"."model" FROM "django_content_type" WHERE "django_content_type"."app_label" = 'contenttypes'; args=('contenttypes',); alias=default
+(0.309) SELECT "django_content_type"."id", "django_content_type"."app_label", "django_content_type"."model" FROM "django_content_type" WHERE ("django_content_type"."app_label" = 'contenttypes' AND "django_content_type"."model" IN ('contenttype')); args=('contenttypes', 'contenttype'); alias=default
+(0.474) SELECT "auth_permission"."content_type_id", "auth_permission"."codename" FROM "auth_permission" INNER JOIN "django_content_type" ON ("auth_permission"."content_type_id" = "django_content_type"."id") WHERE "auth_permission"."content_type_id" IN (5) ORDER BY "django_content_type"."app_label" ASC, "django_content_type"."model" ASC, "auth_permission"."codename" ASC; args=(5,); alias=default
+(0.325) SELECT "django_content_type"."id", "django_content_type"."app_label", "django_content_type"."model" FROM "django_content_type" WHERE "django_content_type"."app_label" = 'contenttypes'; args=('contenttypes',); alias=default
+(0.302) SELECT "django_content_type"."id", "django_content_type"."app_label", "django_content_type"."model" FROM "django_content_type" WHERE "django_content_type"."app_label" = 'sessions'; args=('sessions',); alias=default
+(0.317) SELECT "django_content_type"."id", "django_content_type"."app_label", "django_content_type"."model" FROM "django_content_type" WHERE ("django_content_type"."app_label" = 'sessions' AND "django_content_type"."model" IN ('session')); args=('sessions', 'session'); alias=default
+(0.311) SELECT "auth_permission"."content_type_id", "auth_permission"."codename" FROM "auth_permission" INNER JOIN "django_content_type" ON ("auth_permission"."content_type_id" = "django_content_type"."id") WHERE "auth_permission"."content_type_id" IN (6) ORDER BY "django_content_type"."app_label" ASC, "django_content_type"."model" ASC, "auth_permission"."codename" ASC; args=(6,); alias=default
+(0.300) SELECT "django_content_type"."id", "django_content_type"."app_label", "django_content_type"."model" FROM "django_content_type" WHERE "django_content_type"."app_label" = 'sessions'; args=('sessions',); alias=default
+(0.344) SELECT "django_content_type"."id", "django_content_type"."app_label", "django_content_type"."model" FROM "django_content_type" WHERE "django_content_type"."app_label" = 'volonteer'; args=('volonteer',); alias=default
+(0.443) SELECT "django_content_type"."id", "django_content_type"."app_label", "django_content_type"."model" FROM "django_content_type" WHERE ("django_content_type"."app_label" = 'volonteer' AND "django_content_type"."model" IN ('task', 'statistic', 'event', 'user', 'leaderboard')); args=('volonteer', 'task', 'statistic', 'event', 'user', 'leaderboard'); alias=default
+(0.513) SELECT "auth_permission"."content_type_id", "auth_permission"."codename" FROM "auth_permission" INNER JOIN "django_content_type" ON ("auth_permission"."content_type_id" = "django_content_type"."id") WHERE "auth_permission"."content_type_id" IN (7, 8, 9, 10, 11) ORDER BY "django_content_type"."app_label" ASC, "django_content_type"."model" ASC, "auth_permission"."codename" ASC; args=(7, 8, 9, 10, 11); alias=default
+(0.461) SELECT "django_content_type"."id", "django_content_type"."app_label", "django_content_type"."model" FROM "django_content_type" WHERE "django_content_type"."app_label" = 'volonteer'; args=('volonteer',); alias=default
+(0.311) SELECT "django_content_type"."id", "django_content_type"."app_label", "django_content_type"."model" FROM "django_content_type" WHERE "django_content_type"."app_label" = 'authtoken'; args=('authtoken',); alias=default
+(0.536) SELECT "django_content_type"."id", "django_content_type"."app_label", "django_content_type"."model" FROM "django_content_type" WHERE ("django_content_type"."app_label" = 'authtoken' AND "django_content_type"."model" IN ('tokenproxy', 'token')); args=('authtoken', 'tokenproxy', 'token'); alias=default
+(0.502) SELECT "auth_permission"."content_type_id", "auth_permission"."codename" FROM "auth_permission" INNER JOIN "django_content_type" ON ("auth_permission"."content_type_id" = "django_content_type"."id") WHERE "auth_permission"."content_type_id" IN (12, 13) ORDER BY "django_content_type"."app_label" ASC, "django_content_type"."model" ASC, "auth_permission"."codename" ASC; args=(12, 13); alias=default
+(0.421) SELECT "django_content_type"."id", "django_content_type"."app_label", "django_content_type"."model" FROM "django_content_type" WHERE "django_content_type"."app_label" = 'authtoken'; args=('authtoken',); alias=default
+(0.375) SELECT "django_content_type"."id", "django_content_type"."app_label", "django_content_type"."model" FROM "django_content_type" WHERE "django_content_type"."app_label" = 'cloudinary'; args=('cloudinary',); alias=default
+(0.320) SELECT "django_content_type"."id", "django_content_type"."app_label", "django_content_type"."model" FROM "django_content_type" WHERE "django_content_type"."app_label" = 'cloudinary'; args=('cloudinary',); alias=default
