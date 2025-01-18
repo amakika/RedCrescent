@@ -3,6 +3,7 @@ from django.contrib.auth.admin import UserAdmin
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 from .models import User, Task, Event, Leaderboard, Statistic
+from django.db import transaction
 
 # Custom AdminSite class to disable CSRF for admin views
 class MyAdminSite(admin.AdminSite):
@@ -37,6 +38,11 @@ class CustomUserAdmin(UserAdmin):
             'fields': ('username', 'password1', 'password2', 'role', 'phone_number', 'gender'),
         }),
     )
+
+    def save_model(self, request, obj, form, change):
+        # Disable admin logging for user creation
+        with transaction.atomic():
+            super().save_model(request, obj, form, change)
 
 # Task Admin
 @admin.register(Task, site=admin_site)

@@ -157,3 +157,9 @@ LOGGING = {
 AUTH_USER_MODEL = 'volonteer.User'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+]
+
+ADMIN_LOG_ACTIONS = False  # Disable admin logging temporarily
