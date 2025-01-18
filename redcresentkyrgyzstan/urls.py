@@ -42,8 +42,7 @@ urlpatterns = [
         path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
     ])),
     
-    # Health check (optional)
-    path('health/', include('health_check.urls')),
+  
 ]
 
 # Static and media files
