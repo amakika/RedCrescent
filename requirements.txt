@@ -9,3 +9,4 @@ django-cors-headers
 drf_yasg
 cloudinary 
 django-cloudinary-storage
+Pillow
