@@ -27,6 +27,17 @@ class User(AbstractUser):
     phone_number = models.CharField(max_length=15, null=True, blank=True)
     total_hours = models.DecimalField(max_digits=5, decimal_places=2, default=0.0)
     xp_points = models.IntegerField(default=0)
+    profile_picture = CloudinaryField('image', null=True, blank=True)
+    profile_picture_width = models.PositiveIntegerField(null=True, blank=True)
+    profile_picture_height = models.PositiveIntegerField(null=True, blank=True)
+
+    def save(self, *args, **kwargs):
+        if self.profile_picture:
+            # Get image dimensions before saving
+            image = self.profile_picture
+            self.profile_picture_width = image.width
+            self.profile_picture_height = image.height
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return f"{self.username} ({self.role})"

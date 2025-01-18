@@ -3,9 +3,21 @@ from .models import User, Task, Event, Leaderboard, Statistic
 
 
 class UserSerializer(serializers.ModelSerializer):
+    profile_picture_url = serializers.SerializerMethodField()
+
     class Meta:
         model = User
         fields = '__all__'
+        extra_kwargs = {
+            'profile_picture': {'write_only': True},
+            'profile_picture_width': {'read_only': True},
+            'profile_picture_height': {'read_only': True},
+        }
+
+    def get_profile_picture_url(self, obj):
+        if obj.profile_picture:
+            return obj.profile_picture.url
+        return None
 
 
 class TaskSerializer(serializers.ModelSerializer):
