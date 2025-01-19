@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import User, Task, Event, Leaderboard, Statistic
+from .models import User, Task, Event, Leaderboard, Statistic, Achievement
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -48,3 +48,9 @@ class StatisticSerializer(serializers.ModelSerializer):
     class Meta:
         model = Statistic
         fields = '__all__'
+
+
+class AchievementSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Achievement
+        fields = ['id', 'name']

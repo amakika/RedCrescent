@@ -10,3 +10,7 @@ drf_yasg
 cloudinary 
 django-cloudinary-storage
 Pillow
+<<<<<<< HEAD
+=======
+
+>>>>>>> 06d7f5e (adding achievments)

@@ -2,9 +2,8 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
-from .models import User, Task, Event, Leaderboard, Statistic
+from .models import User, Task, Event, Leaderboard, Statistic, Achievement
 from django.db import transaction
-from django.utils.safestring import mark_safe
 
 # Custom AdminSite class to disable CSRF for admin views
 class MyAdminSite(admin.AdminSite):
@@ -18,55 +17,27 @@ admin_site = MyAdminSite(name="myadmin")
 # Custom User Admin
 @admin.register(User, site=admin_site)
 class CustomUserAdmin(UserAdmin):
-    list_display = ('username', 'email', 'first_name', 'last_name', 'role', 'is_staff', 'profile_picture_preview')
+    list_display = ('username', 'email', 'role', 'is_staff', 'profile_picture')
     list_filter = ('role', 'is_staff', 'is_superuser', 'is_active')
     search_fields = ('username', 'email', 'first_name', 'last_name')
     ordering = ('username',)
-    readonly_fields = ('profile_picture_preview',)
     
     fieldsets = (
         (None, {'fields': ('username', 'password')}),
-        ('Personal Info', {'fields': (
-            'first_name', 
-            'last_name', 
-            'email', 
-            'gender', 
-            'phone_number',
-            'profile_picture',
-            'profile_picture_preview',
-            'profile_picture_width',
-            'profile_picture_height'
-        )}),
+        ('Personal Info', {'fields': ('first_name', 'last_name', 'email', 'gender', 'phone_number')}),
         ('Permissions', {
             'fields': ('is_active', 'is_staff', 'is_superuser', 'groups', 'user_permissions'),
         }),
         ('Important Dates', {'fields': ('last_login', 'date_joined')}),
-        ('Volunteer Info', {'fields': ('role', 'total_hours', 'xp_points')}),
+        ('Volunteer Info', {'fields': ('role', 'total_hours', 'xp_points', 'profile_picture')}),
     )
     
     add_fieldsets = (
         (None, {
             'classes': ('wide',),
-            'fields': (
-                'username',
-                'password1',
-                'password2',
-                'first_name',
-                'last_name',
-                'email',
-                'gender',
-                'phone_number',
-                'role',
-                'profile_picture'
-            ),
+            'fields': ('username', 'password1', 'password2', 'role', 'phone_number', 'gender'),
         }),
     )
-
-    def profile_picture_preview(self, obj):
-        if obj.profile_picture:
-            return mark_safe(f'<img src="{obj.profile_picture.url}" width="150" />')
-        return "No Image"
-    profile_picture_preview.short_description = 'Profile Picture Preview'
 
     def save_model(self, request, obj, form, change):
         # Disable admin logging for user creation
@@ -103,3 +74,9 @@ class LeaderboardAdmin(admin.ModelAdmin):
 class StatisticAdmin(admin.ModelAdmin):
     list_display = ('total_volunteers', 'total_hours', 'male_volunteers', 'female_volunteers', 'other_gender_volunteers')
     list_filter = ('updated_at',)
+
+# Achievement Admin
+@admin.register(Achievement, site=admin_site)
+class AchievementAdmin(admin.ModelAdmin):
+    list_display = ('name',)
+    search_fields = ('name',)

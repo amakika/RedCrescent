@@ -32,6 +32,7 @@ class User(AbstractUser):
     profile_picture = CloudinaryField('image', null=True, blank=True)
     profile_picture_width = models.PositiveIntegerField(null=True, blank=True)
     profile_picture_height = models.PositiveIntegerField(null=True, blank=True)
+    achievements = models.ManyToManyField('Achievement', blank=True, related_name='users')
 
     def save(self, *args, **kwargs):
         # Only process image if it's being updated
@@ -155,4 +156,12 @@ class Statistic(models.Model):
 
     def __str__(self):
         return "Global Statistics"
+
+
+class Achievement(models.Model):
+    name = models.CharField(max_length=100)
+   
+
+    def __str__(self):
+        return self.name
 
