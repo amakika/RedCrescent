@@ -4,10 +4,11 @@ from .models import User, Task, Event, Leaderboard, Statistic, Achievement
 
 class UserSerializer(serializers.ModelSerializer):
     profile_picture_url = serializers.SerializerMethodField()
+    achievements = serializers.SerializerMethodField()
 
     class Meta:
         model = User
-        fields = '__all__'
+        fields = ['id', 'username', 'achievements', 'total_hours', 'completed_tasks']
         extra_kwargs = {
             'profile_picture': {'write_only': True},
             'profile_picture_width': {'read_only': True},
@@ -18,6 +19,9 @@ class UserSerializer(serializers.ModelSerializer):
         if obj.profile_picture:
             return obj.profile_picture.url
         return None
+
+    def get_achievements(self, obj):
+        return AchievementSerializer(obj.achievements.all(), many=True).data
 
 
 class TaskSerializer(serializers.ModelSerializer):
@@ -53,4 +57,4 @@ class StatisticSerializer(serializers.ModelSerializer):
 class AchievementSerializer(serializers.ModelSerializer):
     class Meta:
         model = Achievement
-        fields = ['id', 'name']
+        fields = ['id', 'name', 'description', 'criteria_hours', 'criteria_tasks']

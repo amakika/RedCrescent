@@ -14,10 +14,13 @@ from PIL import Image
 
 class Achievement(models.Model):
     name = models.CharField(max_length=100)
-    
+    description = models.TextField()
+    criteria_hours = models.PositiveIntegerField(default=0)
+    criteria_tasks = models.PositiveIntegerField(default=0)
 
     def __str__(self):
         return self.name
+
 class User(AbstractUser):
     ROLE_CHOICES = [
         ('volunteer', 'Volunteer'),
@@ -38,7 +41,7 @@ class User(AbstractUser):
     profile_picture = CloudinaryField('image', null=True, blank=True)
     profile_picture_width = models.PositiveIntegerField(null=True, blank=True)
     profile_picture_height = models.PositiveIntegerField(null=True, blank=True)
-    achievements = models.ForeignKey('Achievement',on_delete=models.CASCADE, blank=True,null=True, related_name='users')
+    achievements = models.ManyToManyField(Achievement, blank=True, related_name='users')
 
     def save(self, *args, **kwargs):
         # Only process image if it's being updated

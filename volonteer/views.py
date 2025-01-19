@@ -6,12 +6,13 @@ from rest_framework.decorators import action
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from django.contrib.auth import authenticate
-from .models import User, Task, Event, Leaderboard
+from .models import User, Task, Event, Leaderboard, Achievement
 from .serializers import (
     UserSerializer,
     TaskSerializer,
     EventSerializer,
     LeaderboardSerializer,
+    AchievementSerializer,
 )
 from rest_framework import permissions
 from rest_framework.response import Response
@@ -173,3 +174,19 @@ class StatisticViewSet(APIView):
             "total_coordinators": User.objects.filter(role='coordinator').count(),
         }
         return Response(stats, status=status.HTTP_200_OK)
+
+class CheckAchievementsView(APIView):
+    def post(self, request, user_id):
+        user = User.objects.get(id=user_id)
+        achievements = Achievement.objects.all()
+        unlocked = []
+
+        for achievement in achievements:
+            if (user.total_hours >= achievement.criteria_hours and
+                user.completed_tasks >= achievement.criteria_tasks and
+                achievement not in user.achievements.all()):
+                user.achievements.add(achievement)  # Add the achievement to the user
+                unlocked.append(achievement)
+
+        serializer = AchievementSerializer(unlocked, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
