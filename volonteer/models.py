@@ -12,7 +12,19 @@ from django.db import models
 from django.core.exceptions import ValidationError
 from PIL import Image
  
+class Achievement(models.Model):
+    name = models.CharField(max_length=100)
+    description = models.TextField(blank=True, null=True)
+    criteria_hours = models.PositiveIntegerField(default=0, blank=True, null=True)
+    criteria_tasks = models.PositiveIntegerField(default=0, blank=True, null=True)
+    users = models.ManyToManyField(
+        'User', 
+        blank=True, 
+        related_name='achievement_users'  # Unique related_name
+    )
 
+    def __str__(self):
+        return self.name
 class User(AbstractUser):
     ROLE_CHOICES = [
         ('volunteer', 'Volunteer'),
@@ -33,6 +45,11 @@ class User(AbstractUser):
     profile_picture = CloudinaryField('image', null=True, blank=True)
     profile_picture_width = models.PositiveIntegerField(null=True, blank=True)
     profile_picture_height = models.PositiveIntegerField(null=True, blank=True)
+    achievements = models.ManyToManyField(
+        'Achievement', 
+        blank=True, 
+        related_name='user_achievements'  # Unique related_name
+    )
     
 
     def save(self, *args, **kwargs):
@@ -81,15 +98,7 @@ class User(AbstractUser):
 
 
 
-class Achievement(models.Model):
-    name = models.CharField(max_length=100)
-    description = models.TextField(blank=True,null=True)
-    criteria_hours = models.PositiveIntegerField(default=0,blank=True,null=True)
-    criteria_tasks = models.PositiveIntegerField(default=0,blank=True,null=True)
-    user = models.ForeignKey(User,on_delete=models.CASCADE,blank=True,null=True,related_name='achievements')
-    
-    def __str__(self):
-        return self.name
+
 
 class Task(models.Model):
     STATUS_CHOICES = [

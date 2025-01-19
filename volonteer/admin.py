@@ -78,5 +78,6 @@ class StatisticAdmin(admin.ModelAdmin):
 # Achievement Admin
 @admin.register(Achievement, site=admin_site)
 class AchievementAdmin(admin.ModelAdmin):
-    list_display = ('name',)
-    search_fields = ('name',)
+    list_display = ('name', 'description', 'criteria_hours', 'criteria_tasks')
+    search_fields = ('name', 'description')
+    filter_horizontal = ('users',)

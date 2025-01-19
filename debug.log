@@ -2846,3 +2846,188 @@ CREATE INDEX "volonteer_achievement_user_id_8c4ed8da" ON "volonteer_achievement"
 (0.810) SELECT "django_content_type"."id", "django_content_type"."app_label", "django_content_type"."model" FROM "django_content_type" WHERE ("django_content_type"."app_label" = 'token_blacklist' AND "django_content_type"."model" IN ('outstandingtoken', 'blacklistedtoken')); args=('token_blacklist', 'outstandingtoken', 'blacklistedtoken'); alias=default
 (2.156) SELECT "auth_permission"."content_type_id", "auth_permission"."codename" FROM "auth_permission" INNER JOIN "django_content_type" ON ("auth_permission"."content_type_id" = "django_content_type"."id") WHERE "auth_permission"."content_type_id" IN (14, 15) ORDER BY "django_content_type"."app_label" ASC, "django_content_type"."model" ASC, "auth_permission"."codename" ASC; args=(14, 15); alias=default
 (0.301) SELECT "django_content_type"."id", "django_content_type"."app_label", "django_content_type"."model" FROM "django_content_type" WHERE "django_content_type"."app_label" = 'token_blacklist'; args=('token_blacklist',); alias=default
+(0.642) 
+            SELECT
+                c.relname,
+                CASE
+                    WHEN c.relispartition THEN 'p'
+                    WHEN c.relkind IN ('m', 'v') THEN 'v'
+                    ELSE 't'
+                END,
+                obj_description(c.oid, 'pg_class')
+            FROM pg_catalog.pg_class c
+            LEFT JOIN pg_catalog.pg_namespace n ON n.oid = c.relnamespace
+            WHERE c.relkind IN ('f', 'm', 'p', 'r', 'v')
+                AND n.nspname NOT IN ('pg_catalog', 'pg_toast')
+                AND pg_catalog.pg_table_is_visible(c.oid)
+        ; args=None; alias=default
+(0.286) SELECT "django_migrations"."id", "django_migrations"."app", "django_migrations"."name", "django_migrations"."applied" FROM "django_migrations"; args=(); alias=default
+(0.311) 
+            SELECT
+                c.relname,
+                CASE
+                    WHEN c.relispartition THEN 'p'
+                    WHEN c.relkind IN ('m', 'v') THEN 'v'
+                    ELSE 't'
+                END,
+                obj_description(c.oid, 'pg_class')
+            FROM pg_catalog.pg_class c
+            LEFT JOIN pg_catalog.pg_namespace n ON n.oid = c.relnamespace
+            WHERE c.relkind IN ('f', 'm', 'p', 'r', 'v')
+                AND n.nspname NOT IN ('pg_catalog', 'pg_toast')
+                AND pg_catalog.pg_table_is_visible(c.oid)
+        ; args=None; alias=default
+(0.360) SELECT "django_migrations"."id", "django_migrations"."app", "django_migrations"."name", "django_migrations"."applied" FROM "django_migrations"; args=(); alias=default
+(0.307) 
+            SELECT
+                c.relname,
+                CASE
+                    WHEN c.relispartition THEN 'p'
+                    WHEN c.relkind IN ('m', 'v') THEN 'v'
+                    ELSE 't'
+                END,
+                obj_description(c.oid, 'pg_class')
+            FROM pg_catalog.pg_class c
+            LEFT JOIN pg_catalog.pg_namespace n ON n.oid = c.relnamespace
+            WHERE c.relkind IN ('f', 'm', 'p', 'r', 'v')
+                AND n.nspname NOT IN ('pg_catalog', 'pg_toast')
+                AND pg_catalog.pg_table_is_visible(c.oid)
+        ; args=None; alias=default
+(0.316) SELECT "django_migrations"."id", "django_migrations"."app", "django_migrations"."name", "django_migrations"."applied" FROM "django_migrations"; args=(); alias=default
+(0.329) 
+            SELECT
+                c.relname,
+                CASE
+                    WHEN c.relispartition THEN 'p'
+                    WHEN c.relkind IN ('m', 'v') THEN 'v'
+                    ELSE 't'
+                END,
+                obj_description(c.oid, 'pg_class')
+            FROM pg_catalog.pg_class c
+            LEFT JOIN pg_catalog.pg_namespace n ON n.oid = c.relnamespace
+            WHERE c.relkind IN ('f', 'm', 'p', 'r', 'v')
+                AND n.nspname NOT IN ('pg_catalog', 'pg_toast')
+                AND pg_catalog.pg_table_is_visible(c.oid)
+        ; args=None; alias=default
+(0.000) BEGIN; args=None; alias=default
+(1.032) 
+            SELECT
+                c.conname,
+                array(
+                    SELECT attname
+                    FROM unnest(c.conkey) WITH ORDINALITY cols(colid, arridx)
+                    JOIN pg_attribute AS ca ON cols.colid = ca.attnum
+                    WHERE ca.attrelid = c.conrelid
+                    ORDER BY cols.arridx
+                ),
+                c.contype,
+                (SELECT fkc.relname || '.' || fka.attname
+                FROM pg_attribute AS fka
+                JOIN pg_class AS fkc ON fka.attrelid = fkc.oid
+                WHERE fka.attrelid = c.confrelid AND fka.attnum = c.confkey[1]),
+                cl.reloptions
+            FROM pg_constraint AS c
+            JOIN pg_class AS cl ON c.conrelid = cl.oid
+            WHERE cl.relname = 'volonteer_achievement' AND pg_catalog.pg_table_is_visible(cl.oid)
+        ; args=['volonteer_achievement']; alias=default
+(0.304) 
+            SELECT
+                indexname,
+                array_agg(attname ORDER BY arridx),
+                indisunique,
+                indisprimary,
+                array_agg(ordering ORDER BY arridx),
+                amname,
+                exprdef,
+                s2.attoptions
+            FROM (
+                SELECT
+                    c2.relname as indexname, idx.*, attr.attname, am.amname,
+                    CASE
+                        WHEN idx.indexprs IS NOT NULL THEN
+                            pg_get_indexdef(idx.indexrelid)
+                    END AS exprdef,
+                    CASE am.amname
+                        WHEN 'btree' THEN
+                            CASE (option & 1)
+                                WHEN 1 THEN 'DESC' ELSE 'ASC'
+                            END
+                    END as ordering,
+                    c2.reloptions as attoptions
+                FROM (
+                    SELECT *
+                    FROM
+                        pg_index i,
+                        unnest(i.indkey, i.indoption)
+                            WITH ORDINALITY koi(key, option, arridx)
+                ) idx
+                LEFT JOIN pg_class c ON idx.indrelid = c.oid
+                LEFT JOIN pg_class c2 ON idx.indexrelid = c2.oid
+                LEFT JOIN pg_am am ON c2.relam = am.oid
+                LEFT JOIN
+                    pg_attribute attr ON attr.attrelid = c.oid AND attr.attnum = idx.key
+                WHERE c.relname = 'volonteer_achievement' AND pg_catalog.pg_table_is_visible(c.oid)
+            ) s2
+            GROUP BY indexname, indisunique, indisprimary, amname, exprdef, attoptions;
+        ; args=['btree', 'volonteer_achievement']; alias=default
+SET CONSTRAINTS "volonteer_achievement_user_id_8c4ed8da_fk_volonteer_user_id" IMMEDIATE; ALTER TABLE "volonteer_achievement" DROP CONSTRAINT "volonteer_achievement_user_id_8c4ed8da_fk_volonteer_user_id"; (params None)
+(0.310) SET CONSTRAINTS "volonteer_achievement_user_id_8c4ed8da_fk_volonteer_user_id" IMMEDIATE; ALTER TABLE "volonteer_achievement" DROP CONSTRAINT "volonteer_achievement_user_id_8c4ed8da_fk_volonteer_user_id"; args=None; alias=default
+ALTER TABLE "volonteer_achievement" DROP COLUMN "user_id" CASCADE; (params None)
+(0.318) ALTER TABLE "volonteer_achievement" DROP COLUMN "user_id" CASCADE; args=None; alias=default
+CREATE TABLE "volonteer_achievement_users" ("id" bigint NOT NULL PRIMARY KEY GENERATED BY DEFAULT AS IDENTITY, "achievement_id" bigint NOT NULL, "user_id" bigint NOT NULL); (params None)
+(0.319) CREATE TABLE "volonteer_achievement_users" ("id" bigint NOT NULL PRIMARY KEY GENERATED BY DEFAULT AS IDENTITY, "achievement_id" bigint NOT NULL, "user_id" bigint NOT NULL); args=None; alias=default
+CREATE TABLE "volonteer_user_achievements" ("id" bigint NOT NULL PRIMARY KEY GENERATED BY DEFAULT AS IDENTITY, "user_id" bigint NOT NULL, "achievement_id" bigint NOT NULL); (params None)
+(0.305) CREATE TABLE "volonteer_user_achievements" ("id" bigint NOT NULL PRIMARY KEY GENERATED BY DEFAULT AS IDENTITY, "user_id" bigint NOT NULL, "achievement_id" bigint NOT NULL); args=None; alias=default
+ALTER TABLE "volonteer_achievement_users" ADD CONSTRAINT "volonteer_achievement_us_achievement_id_user_id_3b7980f9_uniq" UNIQUE ("achievement_id", "user_id"); (params None)
+(0.327) ALTER TABLE "volonteer_achievement_users" ADD CONSTRAINT "volonteer_achievement_us_achievement_id_user_id_3b7980f9_uniq" UNIQUE ("achievement_id", "user_id"); args=None; alias=default
+ALTER TABLE "volonteer_achievement_users" ADD CONSTRAINT "volonteer_achievemen_achievement_id_1e4f49c2_fk_volonteer" FOREIGN KEY ("achievement_id") REFERENCES "volonteer_achievement" ("id") DEFERRABLE INITIALLY DEFERRED; (params None)
+(0.295) ALTER TABLE "volonteer_achievement_users" ADD CONSTRAINT "volonteer_achievemen_achievement_id_1e4f49c2_fk_volonteer" FOREIGN KEY ("achievement_id") REFERENCES "volonteer_achievement" ("id") DEFERRABLE INITIALLY DEFERRED; args=None; alias=default
+ALTER TABLE "volonteer_achievement_users" ADD CONSTRAINT "volonteer_achievemen_user_id_673637e0_fk_volonteer" FOREIGN KEY ("user_id") REFERENCES "volonteer_user" ("id") DEFERRABLE INITIALLY DEFERRED; (params None)
+(0.301) ALTER TABLE "volonteer_achievement_users" ADD CONSTRAINT "volonteer_achievemen_user_id_673637e0_fk_volonteer" FOREIGN KEY ("user_id") REFERENCES "volonteer_user" ("id") DEFERRABLE INITIALLY DEFERRED; args=None; alias=default
+CREATE INDEX "volonteer_achievement_users_achievement_id_1e4f49c2" ON "volonteer_achievement_users" ("achievement_id"); (params None)
+(0.368) CREATE INDEX "volonteer_achievement_users_achievement_id_1e4f49c2" ON "volonteer_achievement_users" ("achievement_id"); args=None; alias=default
+CREATE INDEX "volonteer_achievement_users_user_id_673637e0" ON "volonteer_achievement_users" ("user_id"); (params None)
+(0.297) CREATE INDEX "volonteer_achievement_users_user_id_673637e0" ON "volonteer_achievement_users" ("user_id"); args=None; alias=default
+ALTER TABLE "volonteer_user_achievements" ADD CONSTRAINT "volonteer_user_achieveme_user_id_achievement_id_d7183237_uniq" UNIQUE ("user_id", "achievement_id"); (params None)
+(0.302) ALTER TABLE "volonteer_user_achievements" ADD CONSTRAINT "volonteer_user_achieveme_user_id_achievement_id_d7183237_uniq" UNIQUE ("user_id", "achievement_id"); args=None; alias=default
+ALTER TABLE "volonteer_user_achievements" ADD CONSTRAINT "volonteer_user_achie_user_id_b5477abe_fk_volonteer" FOREIGN KEY ("user_id") REFERENCES "volonteer_user" ("id") DEFERRABLE INITIALLY DEFERRED; (params None)
+(0.355) ALTER TABLE "volonteer_user_achievements" ADD CONSTRAINT "volonteer_user_achie_user_id_b5477abe_fk_volonteer" FOREIGN KEY ("user_id") REFERENCES "volonteer_user" ("id") DEFERRABLE INITIALLY DEFERRED; args=None; alias=default
+ALTER TABLE "volonteer_user_achievements" ADD CONSTRAINT "volonteer_user_achie_achievement_id_f6e279eb_fk_volonteer" FOREIGN KEY ("achievement_id") REFERENCES "volonteer_achievement" ("id") DEFERRABLE INITIALLY DEFERRED; (params None)
+(0.309) ALTER TABLE "volonteer_user_achievements" ADD CONSTRAINT "volonteer_user_achie_achievement_id_f6e279eb_fk_volonteer" FOREIGN KEY ("achievement_id") REFERENCES "volonteer_achievement" ("id") DEFERRABLE INITIALLY DEFERRED; args=None; alias=default
+CREATE INDEX "volonteer_user_achievements_user_id_b5477abe" ON "volonteer_user_achievements" ("user_id"); (params None)
+(0.309) CREATE INDEX "volonteer_user_achievements_user_id_b5477abe" ON "volonteer_user_achievements" ("user_id"); args=None; alias=default
+CREATE INDEX "volonteer_user_achievements_achievement_id_f6e279eb" ON "volonteer_user_achievements" ("achievement_id"); (params None)
+(0.304) CREATE INDEX "volonteer_user_achievements_achievement_id_f6e279eb" ON "volonteer_user_achievements" ("achievement_id"); args=None; alias=default
+(0.297) COMMIT; args=None; alias=default
+(0.309) INSERT INTO "django_migrations" ("app", "name", "applied") VALUES ('volonteer', '0010_remove_achievement_user_achievement_users_and_more', '2025-01-19T13:31:07.498399+00:00'::timestamptz) RETURNING "django_migrations"."id"; args=('volonteer', '0010_remove_achievement_user_achievement_users_and_more', datetime.datetime(2025, 1, 19, 13, 31, 7, 498399, tzinfo=datetime.timezone.utc)); alias=default
+(0.351) SELECT "django_migrations"."id", "django_migrations"."app", "django_migrations"."name", "django_migrations"."applied" FROM "django_migrations"; args=(); alias=default
+(0.301) SELECT "django_content_type"."id", "django_content_type"."app_label", "django_content_type"."model" FROM "django_content_type" WHERE "django_content_type"."app_label" = 'admin'; args=('admin',); alias=default
+(0.332) SELECT "django_content_type"."id", "django_content_type"."app_label", "django_content_type"."model" FROM "django_content_type" WHERE ("django_content_type"."app_label" = 'admin' AND "django_content_type"."model" IN ('logentry')); args=('admin', 'logentry'); alias=default
+(0.297) SELECT "auth_permission"."content_type_id", "auth_permission"."codename" FROM "auth_permission" INNER JOIN "django_content_type" ON ("auth_permission"."content_type_id" = "django_content_type"."id") WHERE "auth_permission"."content_type_id" IN (1) ORDER BY "django_content_type"."app_label" ASC, "django_content_type"."model" ASC, "auth_permission"."codename" ASC; args=(1,); alias=default
+(0.300) SELECT "django_content_type"."id", "django_content_type"."app_label", "django_content_type"."model" FROM "django_content_type" WHERE "django_content_type"."app_label" = 'admin'; args=('admin',); alias=default
+(0.319) SELECT "django_content_type"."id", "django_content_type"."app_label", "django_content_type"."model" FROM "django_content_type" WHERE "django_content_type"."app_label" = 'auth'; args=('auth',); alias=default
+(0.326) SELECT "django_content_type"."id", "django_content_type"."app_label", "django_content_type"."model" FROM "django_content_type" WHERE ("django_content_type"."app_label" = 'auth' AND "django_content_type"."model" IN ('permission', 'group')); args=('auth', 'permission', 'group'); alias=default
+(0.309) SELECT "auth_permission"."content_type_id", "auth_permission"."codename" FROM "auth_permission" INNER JOIN "django_content_type" ON ("auth_permission"."content_type_id" = "django_content_type"."id") WHERE "auth_permission"."content_type_id" IN (2, 3) ORDER BY "django_content_type"."app_label" ASC, "django_content_type"."model" ASC, "auth_permission"."codename" ASC; args=(2, 3); alias=default
+(0.294) SELECT "django_content_type"."id", "django_content_type"."app_label", "django_content_type"."model" FROM "django_content_type" WHERE "django_content_type"."app_label" = 'auth'; args=('auth',); alias=default
+(0.357) SELECT "django_content_type"."id", "django_content_type"."app_label", "django_content_type"."model" FROM "django_content_type" WHERE "django_content_type"."app_label" = 'contenttypes'; args=('contenttypes',); alias=default
+(0.316) SELECT "django_content_type"."id", "django_content_type"."app_label", "django_content_type"."model" FROM "django_content_type" WHERE ("django_content_type"."app_label" = 'contenttypes' AND "django_content_type"."model" IN ('contenttype')); args=('contenttypes', 'contenttype'); alias=default
+(0.321) SELECT "auth_permission"."content_type_id", "auth_permission"."codename" FROM "auth_permission" INNER JOIN "django_content_type" ON ("auth_permission"."content_type_id" = "django_content_type"."id") WHERE "auth_permission"."content_type_id" IN (4) ORDER BY "django_content_type"."app_label" ASC, "django_content_type"."model" ASC, "auth_permission"."codename" ASC; args=(4,); alias=default
+(0.311) SELECT "django_content_type"."id", "django_content_type"."app_label", "django_content_type"."model" FROM "django_content_type" WHERE "django_content_type"."app_label" = 'contenttypes'; args=('contenttypes',); alias=default
+(0.341) SELECT "django_content_type"."id", "django_content_type"."app_label", "django_content_type"."model" FROM "django_content_type" WHERE "django_content_type"."app_label" = 'sessions'; args=('sessions',); alias=default
+(0.294) SELECT "django_content_type"."id", "django_content_type"."app_label", "django_content_type"."model" FROM "django_content_type" WHERE ("django_content_type"."app_label" = 'sessions' AND "django_content_type"."model" IN ('session')); args=('sessions', 'session'); alias=default
+(0.314) SELECT "auth_permission"."content_type_id", "auth_permission"."codename" FROM "auth_permission" INNER JOIN "django_content_type" ON ("auth_permission"."content_type_id" = "django_content_type"."id") WHERE "auth_permission"."content_type_id" IN (5) ORDER BY "django_content_type"."app_label" ASC, "django_content_type"."model" ASC, "auth_permission"."codename" ASC; args=(5,); alias=default
+(0.325) SELECT "django_content_type"."id", "django_content_type"."app_label", "django_content_type"."model" FROM "django_content_type" WHERE "django_content_type"."app_label" = 'sessions'; args=('sessions',); alias=default
+(0.690) SELECT "django_content_type"."id", "django_content_type"."app_label", "django_content_type"."model" FROM "django_content_type" WHERE "django_content_type"."app_label" = 'volonteer'; args=('volonteer',); alias=default
+(0.306) SELECT "django_content_type"."id", "django_content_type"."app_label", "django_content_type"."model" FROM "django_content_type" WHERE ("django_content_type"."app_label" = 'volonteer' AND "django_content_type"."model" IN ('user', 'statistic', 'event', 'leaderboard', 'task', 'achievement')); args=('volonteer', 'user', 'statistic', 'event', 'leaderboard', 'task', 'achievement'); alias=default
+(0.308) SELECT "auth_permission"."content_type_id", "auth_permission"."codename" FROM "auth_permission" INNER JOIN "django_content_type" ON ("auth_permission"."content_type_id" = "django_content_type"."id") WHERE "auth_permission"."content_type_id" IN (6, 7, 8, 9, 10, 11) ORDER BY "django_content_type"."app_label" ASC, "django_content_type"."model" ASC, "auth_permission"."codename" ASC; args=(6, 7, 8, 9, 10, 11); alias=default
+(0.315) SELECT "django_content_type"."id", "django_content_type"."app_label", "django_content_type"."model" FROM "django_content_type" WHERE "django_content_type"."app_label" = 'volonteer'; args=('volonteer',); alias=default
+(0.311) SELECT "django_content_type"."id", "django_content_type"."app_label", "django_content_type"."model" FROM "django_content_type" WHERE "django_content_type"."app_label" = 'authtoken'; args=('authtoken',); alias=default
+(0.288) SELECT "django_content_type"."id", "django_content_type"."app_label", "django_content_type"."model" FROM "django_content_type" WHERE ("django_content_type"."app_label" = 'authtoken' AND "django_content_type"."model" IN ('token', 'tokenproxy')); args=('authtoken', 'token', 'tokenproxy'); alias=default
+(0.318) SELECT "auth_permission"."content_type_id", "auth_permission"."codename" FROM "auth_permission" INNER JOIN "django_content_type" ON ("auth_permission"."content_type_id" = "django_content_type"."id") WHERE "auth_permission"."content_type_id" IN (12, 13) ORDER BY "django_content_type"."app_label" ASC, "django_content_type"."model" ASC, "auth_permission"."codename" ASC; args=(12, 13); alias=default
+(0.323) SELECT "django_content_type"."id", "django_content_type"."app_label", "django_content_type"."model" FROM "django_content_type" WHERE "django_content_type"."app_label" = 'authtoken'; args=('authtoken',); alias=default
+(0.694) SELECT "django_content_type"."id", "django_content_type"."app_label", "django_content_type"."model" FROM "django_content_type" WHERE "django_content_type"."app_label" = 'cloudinary'; args=('cloudinary',); alias=default
+(0.304) SELECT "django_content_type"."id", "django_content_type"."app_label", "django_content_type"."model" FROM "django_content_type" WHERE "django_content_type"."app_label" = 'cloudinary'; args=('cloudinary',); alias=default
+(0.693) SELECT "django_content_type"."id", "django_content_type"."app_label", "django_content_type"."model" FROM "django_content_type" WHERE "django_content_type"."app_label" = 'token_blacklist'; args=('token_blacklist',); alias=default
+(0.691) SELECT "django_content_type"."id", "django_content_type"."app_label", "django_content_type"."model" FROM "django_content_type" WHERE ("django_content_type"."app_label" = 'token_blacklist' AND "django_content_type"."model" IN ('blacklistedtoken', 'outstandingtoken')); args=('token_blacklist', 'blacklistedtoken', 'outstandingtoken'); alias=default
+(0.295) SELECT "auth_permission"."content_type_id", "auth_permission"."codename" FROM "auth_permission" INNER JOIN "django_content_type" ON ("auth_permission"."content_type_id" = "django_content_type"."id") WHERE "auth_permission"."content_type_id" IN (14, 15) ORDER BY "django_content_type"."app_label" ASC, "django_content_type"."model" ASC, "auth_permission"."codename" ASC; args=(14, 15); alias=default
+(0.307) SELECT "django_content_type"."id", "django_content_type"."app_label", "django_content_type"."model" FROM "django_content_type" WHERE "django_content_type"."app_label" = 'token_blacklist'; args=('token_blacklist',); alias=default
