@@ -1,23 +1,38 @@
 import requests
+from requests.adapters import HTTPAdapter
+from requests.packages.urllib3.util.retry import Retry
 
 # Server URL
-LOGIN_URL = "https://web-production-927a.up.railway.app/api/login/"
+LOGIN_URL = "https://web-production-927a.up.railway.app/token/"
 
 USERNAME = "Zalkarbro"  # Replace with your username
 PASSWORD = "zalkarbro"  # Replace with your password
 
-# Payload for the login request
+# Configure retry strategy
+retry_strategy = Retry(
+    total=3,  # Retry 3 times
+    backoff_factor=1,  # Wait 1 second between retries
+    status_forcelist=[500, 502, 503, 504],  # Retry on these status codes
+)
+
+# Create a session with retry logic
+session = requests.Session()
+adapter = HTTPAdapter(max_retries=retry_strategy)
+session.mount("http://", adapter)
+session.mount("https://", adapter)
+
+# Payload for the token request (form data)
 payload = {
     "username": USERNAME,
     "password": PASSWORD
 }
 
-# Send the POST request
 try:
-    response = requests.post(LOGIN_URL, json=payload)
-    
-    # Print the response
+    # Send the request as form data
+    response = session.post(LOGIN_URL, data=payload, timeout=10)
+    response.raise_for_status()  # Raise an error for bad status codes
     print(f"Status Code: {response.status_code}")
-    print(f"Response JSON: {response.json()}")
+    print("Token Response:", response.json())
 except requests.exceptions.RequestException as e:
-    print(f"An error occurred: {e}") 
+    print(f"Request failed: {e}")
+   
