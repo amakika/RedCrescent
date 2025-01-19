@@ -17,10 +17,11 @@ admin_site = MyAdminSite(name="myadmin")
 # Custom User Admin
 @admin.register(User, site=admin_site)
 class CustomUserAdmin(UserAdmin):
-    list_display = ('username', 'email', 'role', 'is_staff', 'profile_picture')
+    list_display = ('username', 'email', 'role', 'is_staff', 'profile_picture', 'achievements_list')
     list_filter = ('role', 'is_staff', 'is_superuser', 'is_active')
     search_fields = ('username', 'email', 'first_name', 'last_name')
     ordering = ('username',)
+    filter_horizontal = ('achievements',)
     
     fieldsets = (
         (None, {'fields': ('username', 'password')}),
@@ -29,7 +30,7 @@ class CustomUserAdmin(UserAdmin):
             'fields': ('is_active', 'is_staff', 'is_superuser', 'groups', 'user_permissions'),
         }),
         ('Important Dates', {'fields': ('last_login', 'date_joined')}),
-        ('Volunteer Info', {'fields': ('role', 'total_hours', 'xp_points', 'profile_picture')}),
+        ('Volunteer Info', {'fields': ('role', 'total_hours', 'xp_points', 'profile_picture', 'achievements')}),
     )
     
     add_fieldsets = (
@@ -38,6 +39,10 @@ class CustomUserAdmin(UserAdmin):
             'fields': ('username', 'password1', 'password2', 'role', 'phone_number', 'gender'),
         }),
     )
+
+    def achievements_list(self, obj):
+        return ", ".join([achievement.name for achievement in obj.achievements.all()])
+    achievements_list.short_description = 'Achievements'
 
     def save_model(self, request, obj, form, change):
         # Disable admin logging for user creation
