@@ -2,7 +2,7 @@ from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from .views import (
     LoginView, UserViewSet, TaskViewSet,
-    EventViewSet, LeaderboardViewSet, StatisticViewSet,MeView,AchievementViewSet,
+    EventViewSet, LeaderboardViewSet, StatisticViewSet,MeView,CheckAchievementsView,
 )
 
 router = DefaultRouter()
@@ -16,5 +16,5 @@ urlpatterns = [
     path('statistics/', StatisticViewSet.as_view(), name='statistics'),
     path('', include(router.urls)),
     path('me/', MeView.as_view(), name='me'),
-    path('achievements/', AchievementViewSet.as_view(), name='achievements'),
+    path('check-achievements/', CheckAchievementsView.as_view(), name='check-achievements'),
 ]
