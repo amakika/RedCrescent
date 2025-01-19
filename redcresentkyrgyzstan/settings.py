@@ -71,6 +71,7 @@ CSRF_TRUSTED_ORIGINS = [
     'https://redcresentt-production.up.railway.app',
     'http://localhost',
     'http://127.0.0.1',
+    'https://web-production-927a.up.railway.app',
 ]
 ROOT_URLCONF = 'redcresentkyrgyzstan.urls'
 
