@@ -25,6 +25,9 @@ from django.utils.decorators import method_decorator
 from django.http import JsonResponse
 from django.views import View
 from rest_framework.pagination import PageNumberPagination
+import logging
+
+logger = logging.getLogger(__name__)
 
 class StandardResultsSetPagination(PageNumberPagination):
     page_size = 10
@@ -51,19 +54,47 @@ class MeView(APIView):
 class LoginView(APIView):
     permission_classes = [permissions.AllowAny]
     
-    def post(self, request, *args, **kwargs):
-        username = request.data.get("username")
-        password = request.data.get("password")
-        user = authenticate(request, username=username, password=password)
+    def post(self, request):
+        try:
+            username = request.data.get('username')
+            password = request.data.get('password')
 
-        if user:
-            refresh = RefreshToken.for_user(user)
-            return Response({
-                "access": str(refresh.access_token),
-                "refresh": str(refresh),
-                "user": UserSerializer(user).data
-            })
-        return Response({"error": "Invalid credentials"}, status=status.HTTP_401_UNAUTHORIZED)
+            # Log the incoming request data
+            logger.info(f"Login attempt for username: {username}")
+
+            if not username or not password:
+                return Response(
+                    {'error': 'Username and password are required.'},
+                    status=status.HTTP_400_BAD_REQUEST
+                )
+
+            # Authenticate the user
+            user = authenticate(username=username, password=password)
+
+            if user:
+                # Log successful login
+                logger.info(f"User {username} authenticated successfully")
+                refresh = RefreshToken.for_user(user)
+                return Response({
+                    'access': str(refresh.access_token),
+                    'refresh': str(refresh),
+                    'user': UserSerializer(user).data
+                })
+            else:
+                # Log failed login attempt
+                logger.warning(f"Failed login attempt for username: {username}")
+                return Response(
+                    {'error': 'Invalid credentials'},
+                    status=status.HTTP_401_UNAUTHORIZED
+                )
+
+        except Exception as e:
+            # Log the exception
+            logger.error(f"Error in LoginView: {str(e)}", exc_info=True)
+            return Response(
+                {'error': 'An internal server error occurred.'},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
 
 
 # User ViewSet

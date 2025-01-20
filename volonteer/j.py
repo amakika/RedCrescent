@@ -3,7 +3,7 @@ from requests.adapters import HTTPAdapter
 from requests.packages.urllib3.util.retry import Retry
 
 # Server URL
-LOGIN_URL = "https://web-production-927a.up.railway.app/token/"
+LOGIN_URL = "https://web-production-927a.up.railway.app/api/login"
 
 USERNAME = "Zalkarbro"  # Replace with your username
 PASSWORD = "zalkarbro"  # Replace with your password
