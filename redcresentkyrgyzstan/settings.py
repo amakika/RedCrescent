@@ -5,6 +5,7 @@ import cloudinary
 import cloudinary.uploader
 import cloudinary.api
 from datetime import timedelta
+import dj_database_url
 
 # Initialize environ
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -68,7 +69,7 @@ WSGI_APPLICATION = 'redcresentkyrgyzstan.wsgi.application'
 
 # Database
 DATABASES = {
-    'default': env.db(default='postgresql://user:password@localhost:5432/dbname')
+    'default': dj_database_url.config(default=env('DATABASE_URL'))
 }
 DATABASES['default']['OPTIONS'] = {'connect_timeout': 10}
 

@@ -5,8 +5,8 @@ from requests.packages.urllib3.util.retry import Retry
 # Server URL
 LOGIN_URL = "https://web-production-927a.up.railway.app/token"
 
-USERNAME = "Zalkar2"  # Replace with your username
-PASSWORD = "zalkar2"  # Replace with your password
+USERNAME = "yasin"  # Replace with your username
+PASSWORD = "yasinatay"  # Replace with your password
 
 # Configure retry strategy
 retry_strategy = Retry(
