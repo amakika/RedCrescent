@@ -30,7 +30,7 @@ urlpatterns = [
     # Authentication (maintaining existing routes)
     path('token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
-    path('accounts/login/', include('rest_framework.urls')),  # For login/logout views
+      # For login/logout views
     
     # API endpoints
     path('api/', include('volonteer.urls')),
