@@ -3,10 +3,10 @@ from requests.adapters import HTTPAdapter
 from requests.packages.urllib3.util.retry import Retry
 
 # Server URL
-LOGIN_URL = "https://web-production-927a.up.railway.app/api/login"
+LOGIN_URL = "https://web-production-927a.up.railway.app/token"
 
-USERNAME = "Zalkarbro"  # Replace with your username
-PASSWORD = "zalkarbro"  # Replace with your password
+USERNAME = "Zalkar2"  # Replace with your username
+PASSWORD = "zalkar2"  # Replace with your password
 
 # Configure retry strategy
 retry_strategy = Retry(
