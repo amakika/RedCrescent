@@ -69,9 +69,15 @@ WSGI_APPLICATION = 'redcresentkyrgyzstan.wsgi.application'
 
 # Database
 DATABASES = {
-    'default': dj_database_url.config(default=env('DATABASE_URL'))
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'railway',  # Имя базы данных
+        'USER': 'postgres',  # Имя пользователя
+        'PASSWORD': 'DcmYlISQqEBKuWMLPjrJraFnTwhxtvAc',  # Пароль
+        'HOST': 'autorack.proxy.rlwy.net',  # Хост
+        'PORT': '21545',  # Порт
+    }
 }
-DATABASES['default']['OPTIONS'] = {'connect_timeout': 10}
 
 # Password validation
 AUTH_PASSWORD_VALIDATORS = [
